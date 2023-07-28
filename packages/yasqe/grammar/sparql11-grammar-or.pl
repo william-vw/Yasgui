@@ -22,14 +22,14 @@ stephen.cresswell@tso.co.uk
 
 :-dynamic '==>'/2.
 
-sparql11 ==> [prologue,queryAll, $].
+sparql11 ==> [prologue,(queryAll or updateAll), $].
 queryUnit ==> [query,$].
 updateUnit ==> [update,$].
 
 query ==>
 	[prologue,or(selectQuery,constructQuery,describeQuery,askQuery),valuesClause].
 queryAll ==>
-	[*(constructQuery),valuesClause].
+	[or(selectQuery,constructQuery,describeQuery,askQuery),valuesClause].
 
 prologue ==>
 	%[?(baseDecl),*(prefixDecl)].
@@ -65,9 +65,7 @@ constructQuery ==>
 	['CONSTRUCT',
  	 [constructTemplate,*(datasetClause),whereClause,solutionModifier]
          or
-	 [*(datasetClause),'WHERE','{',?(triplesTemplate),'}',solutionModifier],
-	 '.'
-	 ].
+	 [*(datasetClause),'WHERE','{',?(triplesTemplate),'}',solutionModifier]].
 
 describeQuery ==>
 	['DESCRIBE',+(varOrIRIref) or '*',

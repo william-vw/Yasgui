@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
+    <style></style>
+    <link href="/packages/yasqe/build/yasqe.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="yasqe"></div>
+    <script>var isIE11 = !!window.MSInputMethodContext && !!document.documentMode;
+        if (isIE11) {
+            var polyfills = document.createElement("script");
+            polyfills.setAttribute("src", "//yasgui.triply.cc/yasgui.polyfill.min.js");
+            document.head.appendChild(polyfills);
+        }
+        window.onpageshow = function () {
+            const yasqe = new Yasqe(document.getElementById("yasqe"), {
+                value: "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+            "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n\n" +
+            "CONSTRUCT { ?x ?y ?z } WHERE { ?z ?y ?x } .", 
+                showQueryButton: false,
+                queryingDisabled: true,
+                editorHeight: "600px"
+
+            });
+            console.log(yasqe.options)
+            yasqe.setValue(
+                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n\n" +
+                "CONSTRUCT { ?x ?y ?z } WHERE { ?z ?y ?x } ."
+            );
+
+            yasqe.on("queryResponse", function () {
+                console.log("response event", arguments);
+            });
+            yasqe.on("query", function () {
+                console.log("query event", arguments);
+            });
+            document.getElementsByClassName("yasqe_buttons")[0].style.display = "none" 
+
+        };</script>
+    <script src="/packages/yasqe/build/yasqe.min.js"></script>
+</body>
+
+</html>
